@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package propertytype;
+
+service PropertyTypeService {
+  rpc GetPropertyType (PropertyRequest) returns (PropertyResponse);
+}
+
+message PropertyRequest {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+message PropertyResponse {
+  bool allowed = 1;
+  string type = 2;
+}

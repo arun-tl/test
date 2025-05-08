@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tl-propscope-microservice-dev
+  namespace: default
+  labels:
+    app: tl-propscope-microservice-dev
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tl-propscope-microservice-dev
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: tl-propscope-microservice-dev
+        version: v1
+    spec:
+      containers:
+        - name: tl-propscope-microservice-dev
+          image: registry.digitalocean.com/tl-microservices/tl-propscope-microservice-dev@sha256:a7a8811f8264d0a4f1a32a4db9c1c8e7afae433581a5de7a851a28c9d9143cdd
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 50051
+              name: grpc-main
+            - containerPort: 50052
+              name: grpc-alt
+          env:
+            - name: MONGO_DB_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: propscope-config
+                  key: MONGO_DB_URI
+            - name: TL_MANIFEST_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: propscope-config
+                  key: TL_MANIFEST_DB_NAME
+            - name: TL_PROPSCOPE_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: propscope-config
+                  key: TL_PROPSCOPE_DB_NAME
+            - name: PROPSCOPE_MANIFEST_COLLECTION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: propscope-config
+                  key: PROPSCOPE_MANIFEST_COLLECTION_NAME
+            - name: PROPSCOPE_COLLECTION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: propscope-config
+                  key: PROPSCOPE_COLLECTION_NAME
+            - name: MAPTILER_STYLE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: propscope-config
+                  key: MAPTILER_STYLE_URL
+            - name: MAPTILER_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: propscope-config
+                  key: MAPTILER_API_KEY
+          volumeMounts:
+            - name: propscope-config-volume
+              mountPath: /etc/propscope/config
+      volumes:
+        - name: propscope-config-volume
+          configMap:
+            name: propscope-config

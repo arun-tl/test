@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: propscope-config
+  namespace: default
+data:
+  MONGO_DB_URI: mongodb+srv://admin:Tlands%40%232023@tlands-dev.dwtzcqb.mongodb.net
+  TL_MANIFEST_DB_NAME: tl_manifest_db
+  TL_PROPSCOPE_DB_NAME: tl_propscope_db
+  PROPSCOPE_MANIFEST_COLLECTION_NAME: propscope_manifest
+  PROPSCOPE_COLLECTION_NAME: propscopes
+  MAPTILER_STYLE_URL: https://api.maptiler.com/maps/c27d19c0-a6ac-435a-ac58-ddcc1442509b/style.json?key=AckcJ3iiJdkIPYkwy3R2
+  MAPTILER_API_KEY: AckcJ3iiJdkIPYkwy3R2
+  SERVER_GRPC_URL: "0.0.0.0:50051"

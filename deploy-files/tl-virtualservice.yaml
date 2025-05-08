@@ -1,0 +1,38 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tl-propscope-microservice-dev-vs
+  namespace: default
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - tl-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /api/v1/insights
+        - uri:
+            prefix: /insights/docs
+        - uri:
+            prefix: /insights/openapi.json
+      timeout: 300s
+      route:
+        - destination:
+            port:
+              number: 8012
+            host: tl-propscope-microservice-dev-svc.default.svc.cluster.local
+      corsPolicy:
+        allowCredentials: true
+        allowHeaders:
+          - Authorization
+          - token
+          - content-type
+        allowOrigin:
+          - "*"
+        allowMethods:
+          - POST
+          - PUT
+          - GET
+          - PATCH
+          - DELETE

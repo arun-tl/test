@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package propscope;
+
+service PropscopeService {
+  rpc ProcessProperty (PropscopeRequest) returns (PropscopeResponse);
+}
+
+message PropscopeRequest {
+  optional double latitude = 1;
+  optional double longitude = 2;
+  optional int32 zoom = 3;
+  optional string property_type = 4;
+  repeated string isochrone_polygons = 5; // This can be empty if not provided
+  optional string propscope_id = 6;
+}
+
+message PropscopeResponse {
+  string status = 1;
+  string message = 2;
+  string propscope_id = 3;
+  repeated string propscope_group_name = 4;
+  bool propscope_status = 5;
+  double latitude = 6;
+  double longitude = 7;
+}
